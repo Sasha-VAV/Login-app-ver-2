@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 import com.example.a12week.databinding.ActivityMainBinding;
 
@@ -20,9 +21,14 @@ public class MainActivity extends AppCompatActivity {
         LoginPresenter presenter = new LoginPresenter(this,binding,mPref);
         if (LoginPresenter.changelogin){
             presenter.changelogins();
+            EditText e1=findViewById(R.id.e1);
+            e1.setText(LoginPresenter.newLogin);
             LoginPresenter.changelogin=false;
         }
-        if (presenter.signInPref()){
+        boolean ask=false;//выберите значение true, если хотите, чтобы пользователь после регистрации
+        // сразу попадал в second activity
+        // или значение false, чтобы сохранялся его логин и нужно было ввести пароль
+        if (presenter.signInPref() && ask){
             Intent intent = new Intent(MainActivity.this,SecondActivity.class);
             startActivity(intent);
         }
